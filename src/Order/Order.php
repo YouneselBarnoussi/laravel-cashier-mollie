@@ -239,7 +239,7 @@ class Order extends Model
 
                     $payment = (new MandatedPaymentBuilder(
                         $owner,
-                        trans('cashier::payment.description', ['number' => $this->number], Cashier::getLocale($owner)),
+                        $this->getDescription(),
                         $totalDue,
                         url(config('cashier.webhook_url')),
                         [
@@ -622,6 +622,14 @@ class Order extends Model
     public function getCurrency()
     {
         return $this->currency;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return trans('cashier::payment.description', ['number' => $this->number], Cashier::getLocale($this->owner));
     }
 
     /**
